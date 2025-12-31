@@ -44,7 +44,7 @@ draw();
 
 /* 🎵 BACKGROUND MUSIC 🎵 */
 const bgm = new Audio();
-bgm.src = "bgm.mp3";   // ✅ bgm.mp3 MUST be in same folder
+bgm.src = "assets/bgm.mp3"; // ✅ bgm.mp3 MUST be in same folder
 bgm.loop = true;
 bgm.volume = 0.3;
 bgm.preload = "auto";

@@ -1,3 +1,4 @@
+/* ❄️ SNOW EFFECT ❄️ */
 const canvas = document.createElement("canvas");
 canvas.className = "snow";
 document.body.appendChild(canvas);
@@ -41,61 +42,62 @@ function draw() {
 }
 draw();
 
-// Background music controls
+/* 🎵 BACKGROUND MUSIC 🎵 */
 const bgm = new Audio();
-bgm.src = 'assets/bgm.mp3';
+bgm.src = "bgm.mp3";   // ✅ bgm.mp3 MUST be in same folder
 bgm.loop = true;
-bgm.volume = 0.28;
-bgm.preload = 'auto';
+bgm.volume = 0.3;
+bgm.preload = "auto";
+
 let musicPlaying = false;
 
 function updateMusicButton() {
-  const btn = document.getElementById('music-toggle');
+  const btn = document.getElementById("music-toggle");
   if (!btn) return;
-  btn.textContent = musicPlaying ? '🔊 Music ON' : '🔈 Music OFF';
-  btn.setAttribute('aria-pressed', musicPlaying ? 'true' : 'false');
+  btn.textContent = musicPlaying ? "🔊 Music ON" : "🔈 Music OFF";
 }
 
 function playMusic() {
-  bgm.play().then(() => {
-    musicPlaying = true;
-    updateMusicButton();
-    localStorage.setItem('bgmPlaying', '1');
-  }).catch(() => {
-    // Autoplay blocked; wait for user interaction
-    musicPlaying = false;
-    updateMusicButton();
-  });
+  bgm.play()
+    .then(() => {
+      musicPlaying = true;
+      updateMusicButton();
+      localStorage.setItem("bgmPlaying", "1");
+    })
+    .catch(() => {
+      // autoplay blocked
+      musicPlaying = false;
+      updateMusicButton();
+    });
 }
 
 function pauseMusic() {
   bgm.pause();
   musicPlaying = false;
   updateMusicButton();
-  localStorage.setItem('bgmPlaying', '0');
+  localStorage.setItem("bgmPlaying", "0");
 }
 
 function toggleMusic() {
-  if (musicPlaying) pauseMusic(); else playMusic();
+  musicPlaying ? pauseMusic() : playMusic();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('music-toggle');
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("music-toggle");
   if (!btn) return;
-  btn.addEventListener('click', () => {
-    toggleMusic();
-  });
 
-  // Restore preference if user previously enabled music
-  const saved = localStorage.getItem('bgmPlaying');
-  if (saved === '1') {
-    // Many browsers block autoplay; try to play on first user gesture
+  btn.addEventListener("click", toggleMusic);
+
+  const saved = localStorage.getItem("bgmPlaying");
+  if (saved === "1") {
+    // browsers need user click
     const tryPlay = () => {
       playMusic();
-      window.removeEventListener('click', tryPlay);
+      window.removeEventListener("click", tryPlay);
     };
-    window.addEventListener('click', tryPlay);
+    window.addEventListener("click", tryPlay);
   } else {
     updateMusicButton();
   }
 });
+
